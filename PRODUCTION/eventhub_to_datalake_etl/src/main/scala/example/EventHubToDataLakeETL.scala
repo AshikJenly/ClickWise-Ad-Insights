@@ -1,10 +1,19 @@
 package example
 
+import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types._
+import org.apache.spark.sql.functions._
 import org.apache.spark.eventhubs._
+
 import org.apache.spark.sql.functions.{from_json}
 object EventHubToDataLake
 {
+     val spark = SparkSession.builder()
+                .appName("IotApp")
+                .master("local[*]")
+                .config("spark.sql.streaming.stateStore.stateSchemaCheck", "false")
+                .config("spark.sql.warehouse.dir","/new/warehouse")
+                .getOrCreate() 
       val schema = StructType(Seq(
             StructField("event_timestamp", TimestampType, nullable = false),
             StructField("user_id", StringType, nullable = false),
