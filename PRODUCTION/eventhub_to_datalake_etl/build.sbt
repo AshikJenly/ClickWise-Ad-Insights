@@ -14,5 +14,6 @@ lazy val root = (project in file("."))
 libraryDependencies += "org.apache.spark" %% "spark-core" % "3.5.0"
 
 libraryDependencies += "org.apache.spark" %% "spark-sql" % "3.5.0"
-// See https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html for instructions on how to publish to Sonatype.
-libraryDependencies += "com.microsoft.azure" % "azure-eventhubs-spark_2.12" % "2.3.22"
+
+// https://mvnrepository.com/artifact/com.microsoft.azure/azure-eventhubs-spark
+libraryDependencies += "com.microsoft.azure" %% "azure-eventhubs-spark" % "2.3.22"

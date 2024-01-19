@@ -6,7 +6,7 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.eventhubs._
 
 import org.apache.spark.sql.functions.{from_json}
-object EventHubToDataLake
+object EventHubToDataLake extends App
 {
      val spark = SparkSession.builder()
                 .appName("IotApp")
@@ -14,6 +14,7 @@ object EventHubToDataLake
                 .config("spark.sql.streaming.stateStore.stateSchemaCheck", "false")
                 .config("spark.sql.warehouse.dir","/new/warehouse")
                 .getOrCreate() 
+
       val schema = StructType(Seq(
             StructField("event_timestamp", TimestampType, nullable = false),
             StructField("user_id", StringType, nullable = false),
@@ -29,9 +30,14 @@ object EventHubToDataLake
             ))
       
             val connectionString = "Endpoint=sb://forspark.servicebus.windows.net/;SharedAccessKeyName=produce;SharedAccessKey=7hiTBO6qCXCgXVDEmHr40y+RFUMHAJGoA+AEhKvCiII=;EntityPath=clickstream" 
+            
+            // val ehConf = EventHubsConf(connectionString)
+
             val connectionStringBuilder =  ConnectionStringBuilder(connectionString).setEventHubName("clickstream").build
             val customEventhubParameters =  EventHubsConf(connectionStringBuilder).setMaxEventsPerTrigger(5)
             val incomingStream = spark.readStream.format("eventhubs").options(customEventhubParameters.toMap).load()
+
+            // val incomingStream = spark.readStream.format("eventhubs").options(ehConf.toMap).load()
 
             var df= incomingStream.selectExpr("cast(body as string) as json").select(from_json(col("json"),schema).alias("sdata"))
 
@@ -51,12 +57,13 @@ object EventHubToDataLake
             df = df.withColumn("Month",month(col("event_timestamp")))
             df = df.withColumn("year",year(col("event_timestamp")))
 
+            println("Successfully executing")
             val res = df.writeStream
                         .outputMode("append")
                         .partitionBy("year","Month")
                         .format("parquet")
-                        .option("checkpointLocation","/checkpoint/chrc/click")
-                        .option("path","/warehouse/click")
+                        .option("checkpointLocation","/mnt/streamingdata/clickstreamcheckpoint/chrc/click")
+                        .option("path","/mnt/streamingdata/clickstream/warehouse/click")
                         .start()
                         .awaitTermination
 
