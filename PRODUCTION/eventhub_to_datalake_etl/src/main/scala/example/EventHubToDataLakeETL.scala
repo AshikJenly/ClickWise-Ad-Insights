@@ -2,7 +2,7 @@ package example
 
 import org.apache.spark.sql.types._
 import org.apache.spark.eventhubs._
-
+import org.apache.spark.sql.functions.{from_json}
 object EventHubToDataLake
 {
       val schema = StructType(Seq(
@@ -16,30 +16,37 @@ object EventHubToDataLake
             StructField("event_type", StringType, nullable = false),
             StructField("ad_clicked", BooleanType, nullable = false),
             StructField("ad_id", StringType, nullable = false),
-            StructField("duration_seconds", IntegerType, nullable = false),
-            StructField("Month", IntegerType, nullable = false),
-            StructField("year", IntegerType, nullable = false)
+            StructField("duration_seconds", IntegerType, nullable = false)
             ))
       
             val connectionString = "Endpoint=sb://forspark.servicebus.windows.net/;SharedAccessKeyName=produce;SharedAccessKey=7hiTBO6qCXCgXVDEmHr40y+RFUMHAJGoA+AEhKvCiII=;EntityPath=clickstream" 
             val connectionStringBuilder =  ConnectionStringBuilder(connectionString).setEventHubName("clickstream").build
             val customEventhubParameters =  EventHubsConf(connectionStringBuilder).setMaxEventsPerTrigger(5)
-            val incomingStream = spark.readStream.schema(schema).format("eventhubs").options(customEventhubParameters.toMap).load()
+            val incomingStream = spark.readStream.format("eventhubs").options(customEventhubParameters.toMap).load()
 
+            var df= incomingStream.selectExpr("cast(body as string) as json").select(from_json(col("json"),schema).alias("sdata"))
 
-            // var df = spark.readStream.schema(schema).option("header",true).csv("/data/click")
+            df = df.select("sdata.event_timestamp",
+                            "sdata.user_id",
+                            "sdata.session_id",
+                            "sdata.page_url",
+                            "sdata.device_type",
+                            "sdata.browser",
+                            "sdata.geo_location",
+                            "sdata.event_type",
+                            "sdata.ad_clicked",
+                            "sdata.ad_id",
+                            "sdata.duration_seconds"
+                            )
+
             df = df.withColumn("Month",month(col("event_timestamp")))
             df = df.withColumn("year",year(col("event_timestamp")))
-
-
-              incomingStream.selectExpr("cast(body as string) as json").writeStream.format("console").outputMode("append").start().awaitTermination()
-
 
             val res = df.writeStream
                         .outputMode("append")
                         .partitionBy("year","Month")
                         .format("parquet")
-                        .option("checkpointLocation","/checkpoint/click")
+                        .option("checkpointLocation","/checkpoint/chrc/click")
                         .option("path","/warehouse/click")
                         .start()
                         .awaitTermination
