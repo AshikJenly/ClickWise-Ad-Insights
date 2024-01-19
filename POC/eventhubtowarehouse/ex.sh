@@ -1,0 +1,1 @@
+ spark-shell --packages com.microsoft.azure:azure-eventhubs-spark_2.12:2.3.22

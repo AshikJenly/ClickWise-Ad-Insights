@@ -1,6 +1,8 @@
 package example
 
 import org.apache.spark.sql.types._
+import org.apache.spark.eventhubs._
+
 object EventHubToDataLake
 {
       val schema = StructType(Seq(
@@ -19,9 +21,19 @@ object EventHubToDataLake
             StructField("year", IntegerType, nullable = false)
             ))
       
-            var df = spark.readStream.schema(schema).option("header",true).csv("/data/click")
+            val connectionString = "Endpoint=sb://forspark.servicebus.windows.net/;SharedAccessKeyName=produce;SharedAccessKey=7hiTBO6qCXCgXVDEmHr40y+RFUMHAJGoA+AEhKvCiII=;EntityPath=clickstream" 
+            val connectionStringBuilder =  ConnectionStringBuilder(connectionString).setEventHubName("clickstream").build
+            val customEventhubParameters =  EventHubsConf(connectionStringBuilder).setMaxEventsPerTrigger(5)
+            val incomingStream = spark.readStream.schema(schema).format("eventhubs").options(customEventhubParameters.toMap).load()
+
+
+            // var df = spark.readStream.schema(schema).option("header",true).csv("/data/click")
             df = df.withColumn("Month",month(col("event_timestamp")))
             df = df.withColumn("year",year(col("event_timestamp")))
+
+
+              incomingStream.selectExpr("cast(body as string) as json").writeStream.format("console").outputMode("append").start().awaitTermination()
+
 
             val res = df.writeStream
                         .outputMode("append")
