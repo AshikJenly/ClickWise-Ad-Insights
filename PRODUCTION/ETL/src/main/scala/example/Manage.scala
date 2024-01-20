@@ -6,7 +6,7 @@ object Manage
 {
     def main(args:Array[String]) = {
 
-        private val spark = SparkSession.builder().getOrCreate() 
+        val spark = SparkSession.builder().getOrCreate() 
         val event_hub_to_data_lake = new EventHubToDataLake(spark)
         event_hub_to_data_lake.start
         

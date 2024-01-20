@@ -1,11 +1,12 @@
 package example
 
+import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.functions._
 import org.apache.spark.eventhubs._
 
 import org.apache.spark.sql.functions.{from_json}
-case class EventHubToDataLake(val spark:SparkSession)
+case class EventHubToDataLake(private val spark:SparkSession)
 {
      
                   // .appName("")
