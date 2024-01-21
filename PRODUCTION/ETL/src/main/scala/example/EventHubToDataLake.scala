@@ -9,12 +9,6 @@ import org.apache.spark.sql.functions.{from_json}
 case class EventHubToDataLake(private val spark:SparkSession)
 {
      
-                  // .appName("")
-                  // .master("local[*]")
-                  // .config("spark.sql.streaming.stateStore.stateSchemaCheck", "false")
-                  // .config("spark.sql.warehouse.dir","/new/warehouse")
-                  // .getOrCreate() 
-
      private val schema = StructType(Seq(
             StructField("event_timestamp", TimestampType, nullable = false),
             StructField("user_id", StringType, nullable = false),
@@ -29,17 +23,14 @@ case class EventHubToDataLake(private val spark:SparkSession)
             StructField("duration_seconds", IntegerType, nullable = false)
             ))
       
-      private val connectionString = "Endpoint=sb://forspark.servicebus.windows.net/;SharedAccessKeyName=produce;SharedAccessKey=7hiTBO6qCXCgXVDEmHr40y+RFUMHAJGoA+AEhKvCiII=;EntityPath=clickstream" 
+      private val CONNECTION_STRING = "Endpoint=sb://forspark.servicebus.windows.net/;SharedAccessKeyName=produce;SharedAccessKey=7hiTBO6qCXCgXVDEmHr40y+RFUMHAJGoA+AEhKvCiII=;EntityPath=clickstream" 
       
-      // val ehConf = EventHubsConf(connectionString)
-
-      private val connectionStringBuilder =  ConnectionStringBuilder(connectionString).setEventHubName("clickstream").build
+      private val connectionStringBuilder =  ConnectionStringBuilder(CONNECTION_STRING).setEventHubName("clickstream").build
       private val customEventhubParameters =  EventHubsConf(connectionStringBuilder).setMaxEventsPerTrigger(5)
       private val incomingStream = spark.readStream.format("eventhubs").options(customEventhubParameters.toMap).load()
 
       def start = {
       
-                  // val incomingStream = spark.readStream.format("eventhubs").options(ehConf.toMap).load()
                   println(incomingStream.printSchema)
                   var df= incomingStream.selectExpr("cast(body as string) as json").select(from_json(col("json"),schema).alias("sdata"))
 
