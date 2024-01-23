@@ -3,6 +3,7 @@ package example
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.streaming.Trigger
 
 
 case class DataLakeToCosmosDB (private val spark:SparkSession) {
@@ -45,12 +46,13 @@ case class DataLakeToCosmosDB (private val spark:SparkSession) {
 
 
 
-        def writeToMongo(df: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row]){df.show;df.write.option("uri",CONNECTION_URI).mode("overwrite").format("mongo").save}
+        def writeToMongo(df: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row]){df.write.option("uri",CONNECTION_URI).mode("overwrite").format("mongo").save}
         println("Successfully executing the streaming between ADLS to CosmosDB")
         val query = df.writeStream
                 .outputMode("complete")
                 .foreachBatch {(x:org.apache.spark.sql.Dataset[org.apache.spark.sql.Row], y:scala.Long) => writeToMongo(x) }
                 .option("checkpointLocation", "/mnt/streamingdata/clickstreamcheckpoint/asls_to_cosmos/check")
+                .trigger(Trigger.ProcessingTime("10 seconds"))
                 .start.awaitTermination()
     }
 }

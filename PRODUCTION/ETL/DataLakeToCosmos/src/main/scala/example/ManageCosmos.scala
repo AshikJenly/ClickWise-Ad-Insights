@@ -2,7 +2,7 @@ package example
 
 import org.apache.spark.sql.SparkSession
 
-object ManageWarehouse
+object ManageCosmos
 {
     def main(args:Array[String]) = {
 
