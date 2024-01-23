@@ -50,7 +50,7 @@ case class DataLakeToCosmosDB (private val spark:SparkSession) {
         val query = df.writeStream
                 .outputMode("complete")
                 .foreachBatch {(x:org.apache.spark.sql.Dataset[org.apache.spark.sql.Row], y:scala.Long) => writeToMongo(x) }
-                .option("checkpointLocation", "/mnt/streamingdata/clickstreamcheckpoint/asls_to_cosmos/temp")
+                .option("checkpointLocation", "/mnt/streamingdata/clickstreamcheckpoint/asls_to_cosmos/check")
                 .start.awaitTermination()
     }
 }

@@ -50,12 +50,12 @@ case class EventHubToDataLake(private val spark:SparkSession)
                   df = df.withColumn("Month",month(col("event_timestamp")))
                   df = df.withColumn("year",year(col("event_timestamp")))
 
-                  println("Successfully executing")
+                  println("Successfully executing stream to warehouse process")
                   val res = df.writeStream
                               .outputMode("append")
                               .partitionBy("year","Month")
                               .format("parquet")
-                              .option("checkpointLocation","/mnt/streamingdata/clickstreamcheckpoint/chrc/click")
+                              .option("checkpointLocation","/mnt/streamingdata/clickstreamcheckpoint/event_to_adls/click")
                               .option("path","/mnt/streamingdata/clickstream/warehouse/click")
                               .start()
                               .awaitTermination
