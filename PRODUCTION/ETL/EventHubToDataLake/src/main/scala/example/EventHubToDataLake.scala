@@ -55,7 +55,7 @@ case class EventHubToDataLake(private val spark:SparkSession)
                               .outputMode("append")
                               .partitionBy("year","Month")
                               .format("parquet")
-                              .option("checkpointLocation","/mnt/streamingdata/clickstreamcheckpoint/event_to_adls/click")
+                              .option("checkpointLocation","/mnt/streamingdata/clickstreamcheckpoint/event_to_adls/check")
                               .option("path","/mnt/streamingdata/clickstream/warehouse/click")
                               .start()
                               .awaitTermination

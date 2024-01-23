@@ -7,7 +7,7 @@ ThisBuild / organizationName := "example"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "datalake_to_cosmosdb",
+    name := "datalake_to_cosmosdb_etl",
     libraryDependencies += munit % Test
   )
 
