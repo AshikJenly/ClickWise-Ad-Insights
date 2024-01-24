@@ -52,7 +52,7 @@ case class DataLakeToCosmosDB (private val spark:SparkSession) {
                 .outputMode("update")
                 .foreachBatch {(x:org.apache.spark.sql.Dataset[org.apache.spark.sql.Row], y:scala.Long) => writeToMongo(x) }
                 .option("checkpointLocation", "/mnt/streamingdata/clickstreamcheckpoint/asls_to_cosmos/check")
-                .trigger(Trigger.ProcessingTime("4 seconds"))
+                // .trigger(Trigger.ProcessingTime("4 seconds"))
                 .start.awaitTermination()
     }
 }
