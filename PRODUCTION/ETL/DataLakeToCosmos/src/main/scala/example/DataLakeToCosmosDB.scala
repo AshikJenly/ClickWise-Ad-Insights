@@ -46,13 +46,13 @@ case class DataLakeToCosmosDB (private val spark:SparkSession) {
 
 
 
-        def writeToMongo(df: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row]){df.write.option("uri",CONNECTION_URI).mode("overwrite").format("mongo").save}
+        def writeToMongo(df: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row]){df.write.option("uri",CONNECTION_URI).mode("append").format("mongo").save}
         println("Successfully executing the streaming between ADLS to CosmosDB")
         val query = df.writeStream
-                .outputMode("complete")
+                .outputMode("update")
                 .foreachBatch {(x:org.apache.spark.sql.Dataset[org.apache.spark.sql.Row], y:scala.Long) => writeToMongo(x) }
                 .option("checkpointLocation", "/mnt/streamingdata/clickstreamcheckpoint/asls_to_cosmos/check")
-                .trigger(Trigger.ProcessingTime("10 seconds"))
+                .trigger(Trigger.ProcessingTime("4 seconds"))
                 .start.awaitTermination()
     }
 }
