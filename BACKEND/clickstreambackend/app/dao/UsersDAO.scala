@@ -29,4 +29,8 @@ case class UsersDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProv
     def getAllUsers: Future[Seq[User]] = {
             dbConfig.db.run(Users.result)
     }
+    def createUser(user: User): Future[Unit] = {
+        dbConfig.db.run(Users += user).map(_ => ())
+  }
+
 }
