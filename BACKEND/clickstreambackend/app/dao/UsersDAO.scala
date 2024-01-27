@@ -32,9 +32,12 @@ case class UsersDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProv
     }
     def createUser(user: User): Future[Unit] = {
         dbConfig.db.run(Users += user).map(_ => ())
-  }
-  def getUserByEmail(email:String):Future[Option[User]] = {
-    dbConfig.db.run(Users.filter( _.email === email).result.headOption)
+    }
+    def getUserByEmail(email:String):Future[Option[User]] = {
+        dbConfig.db.run(Users.filter( _.email === email).result.headOption)   
+    }
+    def getUserByPassAndEmail(email:String,password:String):Future[Option[User]] = {
+        dbConfig.db.run(Users.filter(user => user.email === email && user.password === password).result.headOption)   
+    }
     
-  }
 }
