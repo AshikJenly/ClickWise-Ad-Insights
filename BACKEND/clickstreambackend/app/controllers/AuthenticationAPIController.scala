@@ -36,14 +36,14 @@ class AuthenticationAPIController @Inject()(cc: ControllerComponents,userDAO: Us
             val user = exists_email.get 
             val verify_password = Await.result(userDAO.getUserByPassAndEmail(email=login_details.email,password=login_details.password),Duration.Inf)
             if(verify_password.isDefined){
-                Ok("verified")
+               Ok(Json.obj("status" -> "verified")).withSession("islogin" -> "true")
             }
             else{
-                Ok("wrong password")
+      Ok(Json.obj("status" -> "wrong password"))
             }
         }
         else {
-            Ok("Email Not Found")
+    Ok(Json.obj("status" -> "Email Not Found"))
         }
        
     }    
@@ -53,13 +53,14 @@ class AuthenticationAPIController @Inject()(cc: ControllerComponents,userDAO: Us
             val exists_email = Await.result(userDAO.getUserByEmail(user.email),Duration.Inf)
             if(exists_email.isDefined) {
                 Future{
-                    userDAO.createUser(user)
-                    Ok("registered")
+                     Ok(Json.obj("status" -> "already exists"))
                 }
+              
             }
             else{
-                Future{
-                    Ok("email already exists")
+                  Future{
+                    userDAO.createUser(user)
+                     Ok(Json.obj("status" -> "verified"))
                 }
             }
     

@@ -38,7 +38,7 @@
       <div class="col-md-8">
         <div class="registration-form">
           <h2 class="text-center">Register</h2>
-          <form action="/api/authentication/reg" method="post">
+          <form id="registrationForm">
             <div class="form-group">
               <label for="username">Username:</label>
               <input type="text" class="form-control" id="username" name="name" required>
@@ -51,7 +51,7 @@
               <label for="password">Password:</label>
               <input type="password" class="form-control" id="password" name="password" required>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Register</button>
+            <button type="button" class="btn btn-primary btn-block" onclick="registerUser()">Register</button>
           </form>
         </div>
       </div>
@@ -62,6 +62,27 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <script>
+    function registerUser() {
+      const formData = new FormData(document.getElementById('registrationForm'));
+      fetch('/api/authentication/reg', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(Object.fromEntries(formData)),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        // Handle the response as needed
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  </script>
 </body>
 
 </html>

@@ -38,7 +38,7 @@
       <div class="col-md-8">
         <div class="login-form">
           <h2 class="text-center">Login</h2>
-          <form action="localhost:9096/api/authentication/login" method="post">
+          <form id="loginForm">
             <div class="form-group">
               <label for="username">Username:</label>
               <input type="text" class="form-control" id="username" name="email" required>
@@ -47,7 +47,7 @@
               <label for="password">Password:</label>
               <input type="password" class="form-control" id="password" name="password" required>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Login</button>
+            <button type="button" class="btn btn-primary btn-block" onclick="submitLoginForm()">Login</button>
           </form>
         </div>
       </div>
@@ -58,6 +58,27 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <script>
+    function submitLoginForm() {
+      const formData = new FormData(document.getElementById('loginForm'));
+      fetch('/api/authentication/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(Object.fromEntries(formData)),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        // Handle the response as needed
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  </script>
 </body>
 
 </html>
