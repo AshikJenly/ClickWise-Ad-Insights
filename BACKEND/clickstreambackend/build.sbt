@@ -23,3 +23,5 @@ libraryDependencies += "org.playframework" %% "play-slick" % "6.0.0"
 libraryDependencies += "org.playframework" %% "play-json" % "3.0.2"
 // https://mvnrepository.com/artifact/com.typesafe.slick/slick
 libraryDependencies += "com.typesafe.slick" %% "slick" % "3.4.1"
+
+libraryDependencies += "com.lihaoyi" %% "upickle" % "3.0.0"

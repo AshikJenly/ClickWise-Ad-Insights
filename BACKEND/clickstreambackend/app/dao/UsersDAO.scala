@@ -12,9 +12,10 @@ import scala.concurrent.{ExecutionContext, Future}
 case class UsersDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
 
     private val dbConfig = dbConfigProvider.get[MySQLProfile]
+
     private class UsersTable(tag:Tag) extends Table[User](tag,"users"){
 
-        def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+        def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
         def name = column[String]("name")
         def email = column[String]("email")
         def password = column[String]("password")
@@ -32,5 +33,8 @@ case class UsersDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProv
     def createUser(user: User): Future[Unit] = {
         dbConfig.db.run(Users += user).map(_ => ())
   }
-
+  def getUserByEmail(email:String):Future[Option[User]] = {
+    dbConfig.db.run(Users.filter( _.email === email).result.headOption)
+    
+  }
 }
