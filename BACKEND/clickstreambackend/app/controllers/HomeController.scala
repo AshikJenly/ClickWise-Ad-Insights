@@ -19,7 +19,14 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
    * a path of `/`.
    */
   def index() = Action { implicit request: Request[AnyContent] =>
-    // Ok(views.html.index())
-     Redirect("/auth/register")
+    
+    request.session.get("islogin") match{
+      case Some("true") => Redirect("/home")
+      case None  => Redirect("/auth/register")
+    }
+
+  }
+  def home() = Action { implicit request: Request[AnyContent] =>
+      Ok(views.html.home())
   }
 }
