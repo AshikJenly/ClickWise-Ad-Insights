@@ -22,6 +22,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
     
     request.session.get("islogin") match{
       case Some("true") => Redirect("/home")
+      case Some("false") => Redirect("/auth/login")
       case None  => Redirect("/auth/register")
     }
 

@@ -15,6 +15,8 @@ GET     /api/authentication                         controllers.AuthenticationAP
 POST     /api/authentication/reg                    controllers.AuthenticationAPIController.register()
 +nocsrf
 POST     /api/authentication/login                  controllers.AuthenticationAPIController.login()
++nocsrf
+POST     /api/authentication/logout                 controllers.AuthenticationAPIController.logout()
 
 
 GET     /auth/login                 controllers.AuthenticationPageController.login()
@@ -23,11 +25,8 @@ GET     /auth/register                 controllers.AuthenticationPageController.
 
 GET /pages/about        controllers.PageController.about()
 
-GET /pages/blog        controllers.PageController
-blog()
+GET /pages/blog        controllers.PageController.blog()
 
-GET /pages/products        controllers.PageController
-products
+GET /pages/products        controllers.PageController.products()
 
-GET /pages/services        controllers.PageController
-services
+GET /pages/services        controllers.PageController.services()

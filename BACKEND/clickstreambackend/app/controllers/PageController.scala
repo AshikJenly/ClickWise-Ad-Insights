@@ -3,27 +3,42 @@ package controllers
 import javax.inject._
 import play.api._
 import play.api.mvc._
-import views.html.adpages.{aboutpage,blogpage,productspage,servicespage}
+import scala.concurrent.Future
+import views.html.adpages.{aboutpage, blogpage, productspage, servicespage}
 
-class PageController @Inject()(cc: ControllerComponents) extends AbstractController(cc){
+class PageController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
 
+  def checkLogin(request: Request[AnyContent]): Option[Boolean] = {
+    request.session.get("islogin").map(_.toBoolean)
+  }
 
-
-    def blog() = Action.async{implicit request:Request[AnyContent] =>
-    
-            Ok(blogpage())
+  def blog() = Action{ implicit request: Request[AnyContent] =>
+   
+      checkLogin(request) match {
+      case Some(true) => Ok(blogpage())
+      case _ => Redirect("/auth/login")
     }
-     def about() = Action.async{implicit request:Request[AnyContent] =>
-    
-            Ok(aboutpage())
-    }
-     def products() = Action.async{implicit request:Request[AnyContent] =>
-    
-            Ok(productspage())
-    }
-     def services() = Action.async{implicit request:Request[AnyContent] =>
-    
-            Ok(servicespage())
-    }
+   
+  }
 
+  def about() = Action{ implicit request: Request[AnyContent] =>
+    checkLogin(request) match {
+      case Some(true) => Ok(aboutpage())
+      case _ => Redirect("/auth/login")
+    }
+  }
+
+  def products() = Action{ implicit request: Request[AnyContent] =>
+    checkLogin(request) match {
+      case Some(true) => Ok(productspage())
+      case _ => Redirect("/auth/login")
+    }
+  }
+
+  def services() = Action{ implicit request: Request[AnyContent] =>
+    checkLogin(request) match {
+      case Some(true) => Ok(servicespage())
+      case _ => Redirect("/auth/login")
+    }
+  }
 }

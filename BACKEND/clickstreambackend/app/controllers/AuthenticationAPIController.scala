@@ -49,6 +49,9 @@ class AuthenticationAPIController @Inject()(cc: ControllerComponents,userDAO: Us
         }
        
     }    
+   def logout() = Action {implicit request:Request[AnyContent]=>
+        Ok(Json.obj("status" -> "verified")).withSession("islogin" -> "false")
+   }
     def register() = Action.async{implicit request: Request[AnyContent] =>
             val value = request.body.asJson.get
             val user = value.as[User]     
