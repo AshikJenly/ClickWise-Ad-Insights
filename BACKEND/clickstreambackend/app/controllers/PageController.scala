@@ -41,4 +41,8 @@ class PageController @Inject()(cc: ControllerComponents) extends AbstractControl
       case _ => Redirect("/auth/login")
     }
   }
+
+  def check() = Action{ implicit request: Request[AnyContent] =>
+  Ok(views.html.check())
+  }
 }
