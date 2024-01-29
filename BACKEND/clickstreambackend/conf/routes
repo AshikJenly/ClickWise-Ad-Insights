@@ -24,9 +24,9 @@ GET     /auth/register                 controllers.AuthenticationPageController.
 
 
 GET /pages/about        controllers.PageController.about()
-
 GET /pages/blog        controllers.PageController.blog()
-
 GET /pages/products        controllers.PageController.products()
-
 GET /pages/services        controllers.PageController.services()
+
+
+GET /ads/getallads      controllers.AdController.adData()
