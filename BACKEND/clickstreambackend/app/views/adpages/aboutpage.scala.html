@@ -1,57 +1,10 @@
+
 @navTemplate()
 <body>
-    <div id="adContainer" class="hidden">
-        <span id="closeButton" onclick="closeAd()">Close [X]</span>
-        <img id="adImage" src="" alt="Ad Image">
-        <p id="adContent"></p>
-    </div>
+    About Page
 
+    @adpages.adtemplate()
     <script>
-        let adData = [];
 
-        async function fetchAdData() {
-            const response = await fetch('/ads/getallads', {
-                method: 'GET'
-            });
-            return await response.json();
-        }
-
-        async function initializeAd() {
-            adData = await fetchAdData();
-            displayAd();
-        }
-
-        function displayAd() {
-            const adContainer = document.getElementById('adContainer');
-            const adImage = document.getElementById('adImage');
-            const adContent = document.getElementById('adContent');
-
-            if (adData.length > 0) {
-                const randomAd = adData[Math.floor(Math.random() * adData.length)];
-                adImage.src = randomAd.adimage;
-                adContent.innerText = randomAd.adcontent;
-
-                adContainer.classList.remove('hidden');
-
-                // Set up click event on the ad
-                adContainer.onclick = function () {
-                    adClicked(randomAd);
-                };
-            }
-        }
-
-        function closeAd() {
-            const adContainer = document.getElementById('adContainer');
-            adContainer.classList.add('hidden');
-        }
-
-        function adClicked(ad) {
-            // Handle ad click, for example, redirect to ad URL
-            console.log('Ad Clicked:', ad);
-            window.location.href = ad.adid;
-        }
-
-        // Call the initializeAd function to fetch and display ad on page load
-        initializeAd();
     </script>
 </body>

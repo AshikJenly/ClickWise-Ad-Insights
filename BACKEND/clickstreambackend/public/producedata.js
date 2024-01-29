@@ -10,26 +10,7 @@ const data = {
     adId: "",
     durationSeconds: 10
 };
-let adData = []; // Initialize adData as an empty array
 
-
-async function fetchData() {
-    try {
-        const response = await fetch('/ads/getallads', {
-            method: 'GET'
-        });
-        const fetchedData = await response.json();
-        adData = fetchedData;
-        console.log(adData);
-    } catch (error) {
-        console.error('Error fetching data:', error);
-    }
-}
-
-async function initialize() {
-    await fetchData();
-    postData();
-}
 
 function postData() {
     updateData();
@@ -78,7 +59,6 @@ function detectBrowser() {
         browserName = "Unknown Browser";
     }
 
-    document.querySelector("h1").innerText = "You are using " + browserName + " browser";
     return browserName;
 }
 
@@ -96,6 +76,5 @@ function detectDeviceType() {
         deviceType = "Unknown";
     }
 
-    document.querySelector("h3").innerText = "Device Type: " + deviceType;
     return deviceType;
 }
