@@ -35,8 +35,13 @@
     </div>
 
    <script>
-         initialize()
+        function updateData(){
+            let random_ad = getRandomAd()
+            updateDisplay(random_ad)
+        }
+         initialize().then(() => updateData()) 
          
+
     </script>
 
     
