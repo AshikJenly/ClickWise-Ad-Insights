@@ -1,12 +1,13 @@
 package services
 import play.api._
 import play.api.mvc._
+import play.api.libs.json._
 
+import models._
+class  ProduceDataToHubs{
 
-object  ProduceDataToServices{
-
-    def produceData(request:Request[AnyContent],url:String) = {
-
+    def produceUserActivity(data:JsValue) = {
+        println(data)
     }
 }
 
