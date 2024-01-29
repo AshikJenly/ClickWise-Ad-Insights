@@ -7,7 +7,7 @@ import models._
 class  ProduceDataToHubs{
 
     def produceUserActivity(data:JsValue) = {
-        println(data)
+        // println(data)
     }
 }
 

@@ -42,7 +42,5 @@ class PageController @Inject()(cc: ControllerComponents) extends AbstractControl
     }
   }
 
-  def check() = Action{ implicit request: Request[AnyContent] =>
-  Ok(views.html.check())
-  }
+ 
 }

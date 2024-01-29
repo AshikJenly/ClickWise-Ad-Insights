@@ -4,13 +4,13 @@ import java.util.UUID
 
 case class UserActivity(
     userId: String,
-    sessionId: UUID,
+    sessionId: String,
     pageUrl: String,
     deviceType: String,
     browser: String,
     geoLocation: String,
     eventType: String,
     adClicked: Boolean,
-    adId: Option[UUID],
+    adId:String,
     durationSeconds: Int
 )

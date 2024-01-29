@@ -27,7 +27,6 @@ GET /pages/about        controllers.PageController.about()
 GET /pages/blog        controllers.PageController.blog()
 GET /pages/products        controllers.PageController.products()
 GET /pages/services        controllers.PageController.services()
-GET /pages/check        controllers.PageController.check()
 
 
 GET /ads/getallads      controllers.AdController.adData()
