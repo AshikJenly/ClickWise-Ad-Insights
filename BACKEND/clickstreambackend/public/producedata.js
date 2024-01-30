@@ -1,4 +1,4 @@
-const data = {
+const DATA = {
     event_timestamp: Date.now(),
     userId: "a",
     sessionId: 'lkajdi84893jdalkaoooqp',
@@ -12,15 +12,33 @@ const data = {
     durationSeconds: 10
 };
 
+let startTime;
 
-function postData() {
-    console.log(data);
+function startTracking() {
+    startTime = new Date();
+}
+
+function stopTracking() {
+    if (startTime) {
+        const endTime = new Date();
+        const timeSpentInSeconds = (endTime - startTime) / 1000;
+
+        // Send the time spent to the server or log it
+        DATA.durationSeconds = parseInt(timeSpentInSeconds)
+        console.log(`Time spent on the page: ${timeSpentInSeconds} seconds`);
+    }
+}
+window.addEventListener('load', startTracking);
+
+function postData(isAd = false) {
+    stopTracking()
+    console.log(DATA);
     fetch('http://localhost:9096/produce/useractivity', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(DATA)
         })
         .then(response => response.json())
         .then(responseData => {
@@ -33,14 +51,14 @@ function postData() {
 }
 
 function updateUserActivityData(event_type,ad_clicked,ad_id) {
-    data.event_timestamp = Date.now()
-    data.browser = detectBrowser();
-    data.deviceType = detectDeviceType();
-    data.geoLocation = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    data.pageUrl = window.location.href;
-    data.eventType = event_type;
-    data.adId = ad_id ;
-    data.adClicked = ad_clicked;
+    DATA.event_timestamp = Date.now()
+    DATA.browser = detectBrowser();
+    DATA.deviceType = detectDeviceType();
+    DATA.geoLocation = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    DATA.pageUrl = window.location.href;
+    DATA.eventType = event_type;
+    DATA.adId = ad_id ;
+    DATA.adClicked = ad_clicked;
 }
 
 function detectBrowser() {
@@ -80,3 +98,5 @@ function detectDeviceType() {
 
     return deviceType;
 }
+
+window.addEventListener('beforeunload',postData);
