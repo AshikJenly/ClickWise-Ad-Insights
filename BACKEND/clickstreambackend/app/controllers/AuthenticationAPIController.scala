@@ -36,8 +36,7 @@ class AuthenticationAPIController @Inject()(cc: ControllerComponents,userDAO: Us
             val user = exists_email.get 
             val verify_password = Await.result(userDAO.getUserByPassAndEmail(email=login_details.email,password=login_details.password),Duration.Inf)
             if(verify_password.isDefined){
-               
-               Ok(Json.obj("status" -> "verified")).withSession("islogin" -> "true","user_id" -> verify_password.get.id.toString)
+               Ok(Json.obj("status" -> "verified")).withSession("islogin" -> "true","user_id" -> verify_password.get.id.getOrElse(-1).toString)
             //    Redirect("/")
             }
             else{

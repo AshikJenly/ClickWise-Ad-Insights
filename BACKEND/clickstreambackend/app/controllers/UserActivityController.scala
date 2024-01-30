@@ -15,7 +15,10 @@ class UserActivityController @Inject()(cc: ControllerComponents,adDAO:AdDAO,prod
 
     def postactivity() = Action { implicit request:Request[AnyContent] =>
         val value = request.body.asJson.get
+        val user_id = request.session.get("user_id").get
+       
         val act = value.as[UserActivity]
+        act.userId = user_id + ""
         println(act)
         produceService.produceUserActivity(value)
         Ok("Produced")
