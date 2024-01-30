@@ -40,6 +40,7 @@
           <h2 class="text-center">Login</h2>
           <form id="loginForm">
             <div class="form-group">
+              <div id="warning" style="color: red;"></div>
               <label for="username">Username:</label>
               <input type="text" class="form-control" id="username" name="email" required>
             </div>
@@ -72,12 +73,19 @@
       .then(response => response.json())
       .then(data => {
         console.log(data);
+        if(data.status == "verified")
+        {
+        window.location.href = "/home"
+        }
+        else{
+          const element = document.getElementById("warning")
+          element.textContent = data.status
+        }
         // Handle the response as needed
       })
       .catch(error => {
         console.error('Error:', error);
       });
-      window.location.href = "/home"
     }
   </script>
 </body>

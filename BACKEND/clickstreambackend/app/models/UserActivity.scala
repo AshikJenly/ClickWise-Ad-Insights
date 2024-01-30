@@ -1,8 +1,9 @@
 package models
-import java.util.UUID
 
+import java.time.Instant
 
 case class UserActivity(
+    event_timestamp:Instant,    
     userId: String,
     sessionId: String,
     pageUrl: String,

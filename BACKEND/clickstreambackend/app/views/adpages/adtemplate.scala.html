@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="@routes.Assets.versioned("getads.js")"></script>
+    <script src="@routes.Assets.versioned("producedata.js")"></script>
+
 
     <style>
         body {
@@ -17,31 +19,56 @@
             margin-left: auto;
             margin-right: auto;
             width: 100%;
+            position: relative;
         }
+        .close-button {
+        position: absolute;
+        top: -25px;
+        right: 1px;
+        background: none;
+        border: none;
+        font-size: 30px;
+        cursor: pointer;
+        color: #000; /* Adjust the color as needed */
+}
     </style>
 </head>
 <body>
 
-    <div id="adCard" class="card">
-        <button href="#" class="btn">X</button>
+    <div id="adCard"  class="card" >
+        <button class="close-button" onclick="closeAdCard()">X</button>
+        <div onclick="viewAdCard()">
 
-        <img src="https://imgs.search.brave.com/WKCWff7m_s0X9PRbrwa8Km4lmqg5pPPHV5Jt3wYyoCY/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTI5/MTYxNDM2Ny9waG90/by9kaW5pbmctdGFi/bGUtaW4tdGhlLWx1/eHVyeS1yZXN0YXVy/YW50LmpwZz9zPTYx/Mng2MTImdz0wJms9/MjAmYz1rUTRxb0R1/MHN3cUFUcHg2X21Q/eU1aM2dyNmJZUnJx/QVN2UEg2alN2ZU9N/PQ"
+            <img src="https://imgs.search.brave.com/WKCWff7m_s0X9PRbrwa8Km4lmqg5pPPHV5Jt3wYyoCY/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTI5/MTYxNDM2Ny9waG90/by9kaW5pbmctdGFi/bGUtaW4tdGhlLWx1/eHVyeS1yZXN0YXVy/YW50LmpwZz9zPTYx/Mng2MTImdz0wJms9/MjAmYz1rUTRxb0R1/MHN3cUFUcHg2X21Q/eU1aM2dyNmJZUnJx/QVN2UEg2alN2ZU9N/PQ"
             class="card-img-top" alt="Ad Image">
-        <div class="card-body">
-            <h5 class="card-title">Jimmy and John Restaurant</h5>
-            <p class="card-text">This is the ad content. You can customize it based on your data.</p>
-            <a href="#" class="btn btn-primary">Learn More</a>
+            <div class="card-body">
+                <h5 class="card-title">Jimmy and John Restaurant</h5>
+                <p class="card-text">This is the ad content. You can customize it based on your data.</p>
+                <a href="#" class="btn btn-primary">Learn More</a>
+            </div>
         </div>
     </div>
 
    <script>
-        function updateData(){
-            let random_ad = getRandomAd()
-            updateDisplay(random_ad)
+        let current_ad = ""
+        function updateAdToDisplay(){
+            current_ad= getRandomAd()
+            updateDisplay(current_ad)
         }
-         initialize().then(() => updateData()) 
+         initialize().then(() => updateAdToDisplay()) 
          
-
+        function closeAdCard()
+        {
+            updateUserActivityData(event_type="click",ad_clicked=false,ad_id= current_ad.adid)
+            postData()
+            console.log("closing")
+        }
+        function viewAdCard()
+        {
+            updateUserActivityData(event_type="click",ad_clicked=true,ad_id= current_ad.adid)
+            postData()
+            console.log("view")
+        }
     </script>
 
     

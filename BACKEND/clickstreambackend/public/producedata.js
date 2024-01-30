@@ -1,4 +1,5 @@
 const data = {
+    event_timestamp: Date.now(),
     userId: "a",
     sessionId: 'lkajdi84893jdalkaoooqp',
     pageUrl: "",
@@ -13,7 +14,6 @@ const data = {
 
 
 function postData() {
-    updateData();
     console.log(data);
     fetch('http://localhost:9096/produce/useractivity', {
             method: 'POST',
@@ -32,13 +32,15 @@ function postData() {
         });
 }
 
-function updateData() {
+function updateUserActivityData(event_type,ad_clicked,ad_id) {
+    data.event_timestamp = Date.now()
     data.browser = detectBrowser();
     data.deviceType = detectDeviceType();
     data.geoLocation = Intl.DateTimeFormat().resolvedOptions().timeZone;
     data.pageUrl = window.location.href;
-    data.eventType = "page_view";
-    data.adId = adData[0].id ;
+    data.eventType = event_type;
+    data.adId = ad_id ;
+    data.adClicked = ad_clicked;
 }
 
 function detectBrowser() {
