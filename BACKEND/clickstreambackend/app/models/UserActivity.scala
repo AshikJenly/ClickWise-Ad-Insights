@@ -1,10 +1,11 @@
 package models
 
 import java.time.Instant
+import play.api.libs.json._
 
 case class UserActivity(
-    event_timestamp:Instant,    
-   var userId: String,
+    event_timestamp: Instant,
+    userId: String,
     sessionId: String,
     pageUrl: String,
     deviceType: String,
@@ -12,6 +13,10 @@ case class UserActivity(
     geoLocation: String,
     eventType: String,
     adClicked: Boolean,
-    adId:String,
+    adId: String,
     durationSeconds: Int
 )
+
+object UserActivity {
+  implicit val format: Format[UserActivity] = Json.format[UserActivity]
+}

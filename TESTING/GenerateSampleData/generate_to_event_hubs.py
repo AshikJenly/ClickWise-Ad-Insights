@@ -73,8 +73,3 @@ asyncio.run(get_random_data("uuser",5000))
 # random_data = get_random_data(user_id_starter="user123", num_rows=5000)
 # print(random_data)
 # random_data.to_csv("random_click_stream_data")
-
-
-
-            
-        

@@ -1,0 +1,51 @@
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.types._
+import org.apache.spark.sql.functions._
+import org.apache.spark.eventhubs._
+
+val schema = StructType(Seq(
+  StructField("event_timestamp", StringType, nullable = false),
+  StructField("userId", StringType, nullable = false),
+  StructField("sessionId", StringType, nullable = false),
+  StructField("pageUrl", StringType, nullable = false),
+  StructField("deviceType", StringType, nullable = false),
+  StructField("browser", StringType, nullable = false),
+  StructField("geoLocation", StringType, nullable = false),
+  StructField("eventType", StringType, nullable = false),
+  StructField("adClicked", BooleanType, nullable = false),
+  StructField("adId", StringType, nullable = false),
+  StructField("durationSeconds", IntegerType, nullable = false)
+))
+
+val CONNECTION_STRING = "Endpoint=sb://forspark.servicebus.windows.net/;SharedAccessKeyName=produce;SharedAccessKey=7hiTBO6qCXCgXVDEmHr40y+RFUMHAJGoA+AEhKvCiII=;EntityPath=clickstream"
+
+val connectionStringBuilder = ConnectionStringBuilder(CONNECTION_STRING).setEventHubName("clickstream").build
+val customEventhubParameters = EventHubsConf(connectionStringBuilder).setMaxEventsPerTrigger(5)
+
+val incomingStream = spark.readStream  .format("eventhubs")  .options(customEventhubParameters.toMap)  .load()
+
+val df = incomingStream.select(
+  col("body").cast(StringType).alias("json")
+).select(
+  from_json(col("json"), schema).alias("sdata")
+).select(
+  "sdata.event_timestamp",
+  "sdata.userId",
+  "sdata.sessionId",
+  "sdata.pageUrl",
+  "sdata.deviceType",
+  "sdata.browser",
+  "sdata.geoLocation",
+  "sdata.eventType",
+  "sdata.adClicked",
+  "sdata.adId",
+  "sdata.durationSeconds"
+)
+
+val dfWithTime = df  .withColumn("Month", month(col("event_timestamp")))  .withColumn("year", year(col("event_timestamp")))
+
+val res = dfWithTime.writeStream  .outputMode("complete") .format("console")  .option("checkpointLocation", "/mnt/streamingdata/clickstreamcheckpoint/event_to_adls/check").start()
+
+res.awaitTermination()
+
+val res = dfWithTime.writeStream  .outputMode("append")  .partitionBy("year", "Month")  .format("parquet")  .option("checkpointLocation", "/mnt/streamingdata/clickstreamcheckpoint/event_to_adls/check")  .option("path", "/mnt/streamingdata/clickstream/warehouse/click")  .start()

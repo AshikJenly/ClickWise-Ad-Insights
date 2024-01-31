@@ -25,3 +25,5 @@ libraryDependencies += "org.playframework" %% "play-json" % "3.0.2"
 libraryDependencies += "com.typesafe.slick" %% "slick" % "3.4.1"
 
 libraryDependencies += "com.lihaoyi" %% "upickle" % "3.0.0"
+libraryDependencies += "com.microsoft.azure" % "azure-eventhubs" % "2.3.0"
+libraryDependencies += "com.azure" % "azure-messaging-eventhubs" % "5.17.0"
