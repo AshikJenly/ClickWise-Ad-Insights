@@ -10,7 +10,7 @@ case class DataLakeToCosmosDB (private val spark:SparkSession) {
     //   spark.conf.set("spark.sql.streaming.stateStoreRetention", "10 minutes")
 
     private val schema = StructType(Seq(
-                    StructField("event_timestamp", TimestampType, nullable = true),
+                    StructField("event_timestamp", StringType, nullable = true),
                     StructField("user_id", StringType, nullable = true),
                     StructField("session_id", StringType, nullable = true),
                     StructField("page_url", StringType, nullable = true),
@@ -29,8 +29,9 @@ case class DataLakeToCosmosDB (private val spark:SparkSession) {
     var df  = spark.readStream
                             .schema(schema)
                             .parquet("/mnt/streamingdata/clickstream/warehouse/click")
-                            // .withColumn("event_timestamp", col("event_timestamp").cast(TimestampType))
+                            .withColumn("event_timestamp", col("event_timestamp").cast(TimestampType))
                             // .withColumn("ad_clicked", col("ad_clicked").cast(BooleanType))
+        
     def start = {
         println("Printing Schema")
         println(df.printSchema)
