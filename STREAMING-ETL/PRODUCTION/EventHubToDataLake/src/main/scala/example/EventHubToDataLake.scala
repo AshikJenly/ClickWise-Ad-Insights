@@ -33,7 +33,7 @@ case class EventHubToDataLake(private val spark:SparkSession)
       
                   println(incomingStream.printSchema)
                   
-                  val df = incomingStream.select(col("body").cast(StringType).alias("json"))
+                  var df = incomingStream.select(col("body").cast(StringType).alias("json"))
                                          .select(from_json(col("json"), schema).alias("sdata"))
                                          .select(
                                           "sdata.event_timestamp",
