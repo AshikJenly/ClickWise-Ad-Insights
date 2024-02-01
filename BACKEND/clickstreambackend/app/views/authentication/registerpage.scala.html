@@ -50,6 +50,9 @@
             <div class="form-group">
               <label for="password">Password:</label>
               <input type="password" class="form-control" id="password" name="password" required>
+              <div>
+                <a href="/auth/login">Login</a>
+              </div>
             </div>
             <button type="button" class="btn btn-primary btn-block" onclick="registerUser()">Register</button>
           </form>
@@ -81,7 +84,7 @@
       .catch(error => {
         console.error('Error:', error);
       });
-      window.location.href = "/auth/register"
+      window.location.href = "/auth/login"
 
     }
   </script>
