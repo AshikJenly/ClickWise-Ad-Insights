@@ -7,6 +7,9 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.13.12"
 
+import play.sbt.PlayImport._
+javacOptions ++= Seq("-source", "11", "-target", "11")
+
 libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.0" % Test
 
@@ -27,3 +30,6 @@ libraryDependencies += "com.typesafe.slick" %% "slick" % "3.4.1"
 libraryDependencies += "com.lihaoyi" %% "upickle" % "3.0.0"
 libraryDependencies += "com.microsoft.azure" % "azure-eventhubs" % "2.3.0"
 libraryDependencies += "com.azure" % "azure-messaging-eventhubs" % "5.17.0"
+
+
+PlayKeys.playDefaultPort := 9096
