@@ -32,22 +32,21 @@ case class EventHubToDataLake(private val spark:SparkSession)
       def start = {
       
                   println(incomingStream.printSchema)
-                  
                   var df = incomingStream.select(col("body").cast(StringType).alias("json"))
                                          .select(from_json(col("json"), schema).alias("sdata"))
                                          .select(
-                                          "sdata.event_timestamp",
-                                          "sdata.userId",
-                                          "sdata.sessionId",
-                                          "sdata.pageUrl",
-                                          "sdata.deviceType",
-                                          "sdata.browser",
-                                          "sdata.geoLocation",
-                                          "sdata.eventType",
-                                          "sdata.adClicked",
-                                          "sdata.adId",
-                                          "sdata.durationSeconds"
-                                    )
+                                                to_timestamp(col("sdata.event_timestamp")).alias("event_timestamp"),
+                                                col("sdata.userId"),
+                                                col("sdata.sessionId"),
+                                                col("sdata.pageUrl"),
+                                                col("sdata.deviceType"),
+                                                col("sdata.browser"),
+                                                col("sdata.geoLocation"),
+                                                col("sdata.eventType"),
+                                                col("sdata.adClicked"),
+                                                col("sdata.adId"),
+                                                col("sdata.durationSeconds"))
+                  
 
                   df = df.withColumn("Month",month(col("event_timestamp")))
                   df = df.withColumn("year",year(col("event_timestamp")))
@@ -57,8 +56,8 @@ case class EventHubToDataLake(private val spark:SparkSession)
                               .outputMode("append")
                               .partitionBy("year","Month")
                               .format("parquet")
-                              .option("checkpointLocation","/mnt/streamingdata/clickstreamcheckpoint/event_to_adls/check")
-                              .option("path","/mnt/streamingdata/clickstream/warehouse/click")
+                              .option("checkpointLocation","/mnt/streamingdatafinal/clickstreamcheckpoint/event_to_adls/check")
+                              .option("path","/mnt/streamingdatafinal/clickstream/warehouse/click")
                               .start()
                               .awaitTermination
       }
