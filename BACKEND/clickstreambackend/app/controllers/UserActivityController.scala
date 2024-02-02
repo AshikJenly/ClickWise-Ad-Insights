@@ -23,5 +23,6 @@ class UserActivityController @Inject()(cc: ControllerComponents,adDAO:AdDAO,prod
         produceService.produceDataToHubs(act)
         Ok(Json.obj("status"->"Produced"))
     }
+    
 
 } 

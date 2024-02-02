@@ -28,8 +28,8 @@ GET /pages/blog        controllers.PageController.blog()
 GET /pages/products        controllers.PageController.products()
 GET /pages/services        controllers.PageController.services()
 
-
-GET /ads/getallads      controllers.AdController.adData()
+GET     /ads/getallads      controllers.AdController.adData()
+GET     /api/datas/mongo/all                  controllers.MongoDBController.getAllDocuments()
 
 +nocsrf
 POST /produce/useractivity controllers.UserActivityController.postactivity()
