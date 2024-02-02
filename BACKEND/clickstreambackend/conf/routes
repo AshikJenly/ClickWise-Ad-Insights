@@ -30,6 +30,7 @@ GET /pages/services        controllers.PageController.services()
 
 GET     /ads/getallads      controllers.AdController.adData()
 GET     /api/datas/mongo/all                  controllers.MongoDBController.getAllDocuments()
+GET     /api/datas/mongo/agg                 controllers.MongoDBController.aggGroupByWindow()
 
 +nocsrf
 POST /produce/useractivity controllers.UserActivityController.postactivity()
