@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Website Statistics</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./loader.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="heading-primary">Hello World</h1>
+    </header>
+    <div class="loadingspinner">
+      <div id="square1"></div>
+      <div id="square2"></div>
+      <div id="square3"></div>
+      <div id="square4"></div>
+      <div id="square5"></div>
+    </div>
+    <main class="main hide">
+      <section class="main-content">
+        <div class="content_box">
+          <div class="live-users_box container">
+            <h1 class="live-users__heading">50+</h1>
+            <p class="live-users__text">Active users</p>
+          </div>
+          <div class="live-py_box">
+            <canvas id="donetChart" width="400" height="200"></canvas>
+          </div>
+        </div>
+      </section>
+      <section class="main-chart">
+        <div class="main-chat_box" style="width: 80%; margin: auto">
+          <canvas id="myChart" width="400" height="200"></canvas>
+        </div>
+      </section>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
