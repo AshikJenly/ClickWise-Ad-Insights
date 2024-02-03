@@ -32,17 +32,16 @@ class MongoDBController @Inject()(cc: ControllerComponents)(implicit ec: Executi
   }
 
   def aggGroupByWindow: Action[AnyContent] = Action.async { _ =>
-    val aggregationPipeline = List(
-      group("$window", sum("total_users_visited", "$total_users_visited"),
-        sum("total_unique_users_visited", "$total_unique_users_visited"),
-        avg("avg_time_spend_in_website", "$avg_time_spend_in_website"),
-        sum("add_watched", "$add_watched")
+    val aggregationPipeline = Seq(
+       group("$window",
+        sum("totalUsersVisited", "$total_users_visited"),
+        sum("totalUniqueUsersVisited", "$total_unique_users_visited"),
+        avg("avgTimeSpendInWebsite", "$avg_time_spend_in_website"),
+        count("addWatched", "$add_watched")
       ),
-      sort(descending("$_id.end")),
-      limit(15)
-
+      sort(descending("_id")),
+      limit(10)
     )
-
     collection.aggregate(aggregationPipeline).toFuture().map { result =>
       Ok(result.map(_.toJson()).mkString("[", ",", "]"))
     }

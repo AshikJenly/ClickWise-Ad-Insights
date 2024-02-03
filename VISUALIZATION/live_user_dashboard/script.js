@@ -1,5 +1,5 @@
 // Data from your provided JSON
-const url = "http://localhost:9096/api/datas/mongo/agg";
+const url = "http://20.193.151.118:9096/api/datas/mongo/agg";
 const liveUsersCount = document.querySelector(".live-users__heading");
 const main = document.querySelector(".main");
 const loader = document.querySelector(".loadingspinner");
@@ -11,36 +11,42 @@ const hideLoader = () => {
   loader.classList.add("hide");
   main.classList.remove("hide");
 };
+
 const updateLiveUsers = (data) => {
 
-  const liveUser = data[data.length - 1].total_users_visited;
+  const liveUser = data[data.length - 1].totalUsersVisited;
   //   if (liveUser < 10) {
   //     liveUsersCount.innerHTML = `10+`;
   //     return;
   //   }
+  
   liveUsersCount.innerHTML = `${liveUser}+`;
 };
+
 
 const getData = async () => {
 
   const res = await fetch(url);
   const data = await res.json();
+  console.log(data)
   if (data) {
     hideLoader();
-    console.log('hello');
   }
+  // console.log(data);
 
   return updateChart(data);
 };
 
-const updateChart = (data) => {
+const updateChart = (data1) => {
 if(chart1){
   chart1.destroy();
   chart2.destroy();
 }
-  
+  const data = data1.slice().reverse();
   updateLiveUsers(data);
+  
   const timestamp = data.map((item) => new Date(item._id.start.$date));
+  
   const hours = timestamp.map((item) => item.getUTCHours());
    chart1=new Chart(ctx1, {
     type: "doughnut",
@@ -50,8 +56,8 @@ if(chart1){
         {
           label: "No. of users",
           data: [
-            data[data.length - 1].total_users_visited,
-            data[data.length - 2].total_unique_users_visited,
+            data[data.length - 1].totalUsersVisited,
+            data[data.length - 2].totalUniqueUsersVisited,
           ],
           borderWidth: 1,
         },
@@ -83,7 +89,7 @@ if(chart1){
       datasets: [
         {
           label: "No. of users",
-          data: data.map((item) => item.total_users_visited),
+          data: data.map((item) => item.totalUsersVisited),
           borderWidth: 1,
           order: 1,
         },
@@ -109,8 +115,6 @@ if(chart1){
   });
 };
 
-
-
 setTimeout(() => {
   getData();
 }, 1000);
@@ -118,19 +122,3 @@ setTimeout(() => {
 setInterval(getData, 6000);
 
 
-db.test.aggregate([
-  {
-    $group: {
-      _id: "$window",
-      totalUsersVisited: { $sum: "$total_users_visited" },
-      totalUniqueUsersVisited: { $sum: "$total_unique_users_visited" },
-      avgTimeSpendInWebsite: { $avg: "$avg_time_spend_in_website" },
-      addWatched: { $sum: "$add_watched" }
-    }
-  },
-  {
-    $sort: {
-      _id: -1 
-    }
-  }
-]);
