@@ -23,8 +23,8 @@
         }
         .close-button {
         position: absolute;
-        top: -25px;
-        right: 1px;
+        top: -45px;
+        right: -10px;
         background: none;
         border: none;
         font-size: 30px;
@@ -62,12 +62,16 @@
             updateUserActivityData(event_type="click",ad_clicked=false,ad_id= current_ad.adid)
             postData()
             console.log("closing")
+            const card = document.getElementById("adCard");
+            card.style.display = "none";
+
         }
         function viewAdCard()
         {
             updateUserActivityData(event_type="click",ad_clicked=true,ad_id= current_ad.adid)
             postData()
             console.log("view")
+            updateAdToDisplay()
         }
     </script>
 
