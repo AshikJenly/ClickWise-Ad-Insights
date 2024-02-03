@@ -33,7 +33,9 @@ window.addEventListener('load', startTracking);
 function postData(isAd = false) {
     stopTracking()
     console.log(DATA);
-    fetch('http://20.193.151.118:9096/produce/useractivity', {
+    const baseUrl = window.location.origin;
+
+    fetch( `${baseUrl}/produce/useractivity`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

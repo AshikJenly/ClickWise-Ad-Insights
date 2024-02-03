@@ -4,10 +4,14 @@ package controllers
 
 import javax.inject._
 import play.api.mvc._
+import play.api.libs.json._
+
 import org.mongodb.scala._
 import org.mongodb.scala.model.Aggregates._
 import org.mongodb.scala.model.Projections._
-import org.mongodb.scala.model.Accumulators._ 
+import org.mongodb.scala.model.Accumulators._
+import org.mongodb.scala.model.Sorts._
+
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
@@ -33,7 +37,10 @@ class MongoDBController @Inject()(cc: ControllerComponents)(implicit ec: Executi
         sum("total_unique_users_visited", "$total_unique_users_visited"),
         avg("avg_time_spend_in_website", "$avg_time_spend_in_website"),
         sum("add_watched", "$add_watched")
-      )
+      ),
+      sort(descending("$_id.end")),
+      limit(15)
+
     )
 
     collection.aggregate(aggregationPipeline).toFuture().map { result =>
