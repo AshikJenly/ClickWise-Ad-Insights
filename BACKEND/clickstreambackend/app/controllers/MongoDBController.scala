@@ -37,7 +37,7 @@ class MongoDBController @Inject()(cc: ControllerComponents)(implicit ec: Executi
         sum("totalUsersVisited", "$total_users_visited"),
         sum("totalUniqueUsersVisited", "$total_unique_users_visited"),
         avg("avgTimeSpendInWebsite", "$avg_time_spend_in_website"),
-        count("addWatched", "$add_watched")
+        addToSet("addWatched", "$add_watched")
       ),
       sort(descending("_id")),
       limit(10)
