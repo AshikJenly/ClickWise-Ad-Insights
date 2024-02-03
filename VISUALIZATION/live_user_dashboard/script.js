@@ -95,4 +95,4 @@ setTimeout(() => {
   getData();
 }, 1000);
 
-// setInterval(getData, 2000);
+setInterval(getData, 2000);
