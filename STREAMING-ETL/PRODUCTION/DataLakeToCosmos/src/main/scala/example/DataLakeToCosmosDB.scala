@@ -34,8 +34,8 @@ case class DataLakeToCosmosDB (private val spark:SparkSession) {
     def start = {
         println("Printing Schema")
         println(data.printSchema)
-       var df  = data.withWatermark("event_timestamp","1 hour")
-                    .groupBy(window(col("event_timestamp"), "5 seconds").alias("window"))
+       var df  = data.withWatermark("event_timestamp","1 day")
+                    .groupBy(window(col("event_timestamp"), "1 hour").alias("window"))
                         .agg(
                             count("userId").alias("total_users_visited"),
                             approx_count_distinct("userId").alias("total_unique_users_visited"),

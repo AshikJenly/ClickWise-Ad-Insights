@@ -12,7 +12,7 @@ const hideLoader = () => {
   main.classList.remove("hide");
 };
 const updateLiveUsers = (data) => {
-  
+
   const liveUser = data[data.length - 1].total_users_visited;
   //   if (liveUser < 10) {
   //     liveUsersCount.innerHTML = `10+`;
@@ -116,3 +116,21 @@ setTimeout(() => {
 }, 1000);
 
 setInterval(getData, 6000);
+
+
+db.test.aggregate([
+  {
+    $group: {
+      _id: "$window",
+      totalUsersVisited: { $sum: "$total_users_visited" },
+      totalUniqueUsersVisited: { $sum: "$total_unique_users_visited" },
+      avgTimeSpendInWebsite: { $avg: "$avg_time_spend_in_website" },
+      addWatched: { $sum: "$add_watched" }
+    }
+  },
+  {
+    $sort: {
+      _id: -1 
+    }
+  }
+]);
