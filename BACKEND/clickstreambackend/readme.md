@@ -1,5 +1,5 @@
-
 # REST API Documentation
+
 This documentation provides details on the REST API endpoints and their usage for the Clickstream Application.
 
 ## Table of Contents
@@ -26,11 +26,12 @@ This documentation provides details on the REST API endpoints and their usage fo
 - **Endpoint:** `POST /api/authentication/reg`
 - **Description:** Register a new user.
 - **Request Body:**
-  ```json
+```json
   {
     "email": "user@example.com",
     "password": "password123",
-  }```
+  }
+  ```
 
 - **Response:**
   - 200 OK: User registered successfully.
@@ -94,5 +95,5 @@ This documentation provides details on the REST API endpoints and their usage fo
   }
   ```
 - **Response:** 200 OK
-
+```
 
