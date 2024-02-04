@@ -1,5 +1,5 @@
 // Data from your provided JSON
-const url = "http://localhost:9096/api/datas/mongo/agg";
+const url = "http://20.193.151.118:9096/api/datas/mongo/agg";
 const liveUsersCount = document.querySelector(".live-users__heading");
 const main = document.querySelector(".main");
 const loader = document.querySelector(".loadingspinner");
