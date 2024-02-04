@@ -15,10 +15,6 @@ const hideLoader = () => {
 const updateLiveUsers = (data) => {
 
   const liveUser = data[data.length - 1].totalUniqueUsersVisited;
-  //   if (liveUser < 10) {
-  //     liveUsersCount.innerHTML = `10+`;
-  //     return;
-  //   }
   
   liveUsersCount.innerHTML = `${liveUser}+`;
 };

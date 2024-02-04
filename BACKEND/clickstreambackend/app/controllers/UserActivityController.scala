@@ -19,7 +19,6 @@ class UserActivityController @Inject()(cc: ControllerComponents,adDAO:AdDAO,prod
     //    println(value)
         val act = value.as[UserActivity]
         act.userId = user_id + ""
-        println(act)
         produceService.produceDataToHubs(act)
         Ok(Json.obj("status"->"Produced"))
     }

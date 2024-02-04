@@ -28,12 +28,10 @@ class ProduceDataToHubs{
 
         // Convert the JsValue to a JSON string
         val jsonString: String = Json.stringify(json)
-    println(jsonString)
       val messagePayload = jsonString
       val messageBytes = messagePayload.getBytes(StandardCharsets.UTF_8)
 
       val eventData = EventData.create(messageBytes)
-    println(eventData)
     //   // You can add custom properties to the event if needed
       eventData.getProperties.put("key", "value")
 
