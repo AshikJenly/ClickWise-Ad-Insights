@@ -1,5 +1,5 @@
 // Data from your provided JSON
-const url = "http://20.193.151.118:9096/api/datas/mongo/agg";
+const url = "http://localhost:9096/api/datas/mongo/agg";
 const liveUsersCount = document.querySelector(".live-users__heading");
 const main = document.querySelector(".main");
 const loader = document.querySelector(".loadingspinner");
@@ -14,7 +14,7 @@ const hideLoader = () => {
 
 const updateLiveUsers = (data) => {
 
-  const liveUser = data[data.length - 1].totalUsersVisited;
+  const liveUser = data[data.length - 1].totalUniqueUsersVisited;
   //   if (liveUser < 10) {
   //     liveUsersCount.innerHTML = `10+`;
   //     return;
@@ -42,7 +42,9 @@ if(chart1){
   chart1.destroy();
   chart2.destroy();
 }
-  const data = data1.slice().reverse();
+  // const data = data1.slice().reverse();
+  const data = data1.slice();
+
   updateLiveUsers(data);
   
   const timestamp = data.map((item) => new Date(item._id.start.$date));
@@ -88,7 +90,7 @@ if(chart1){
       labels: hours,
       datasets: [
         {
-          label: "No. of users",
+          label: "No. of requests per hour",
           data: data.map((item) => item.totalUsersVisited),
           borderWidth: 1,
           order: 1,
