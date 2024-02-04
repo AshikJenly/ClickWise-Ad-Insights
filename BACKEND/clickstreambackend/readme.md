@@ -32,7 +32,6 @@ This documentation provides details on the REST API endpoints and their usage fo
   {
     "email": "user@example.com",
     "password": "password123",
-    // Additional user details
   }
   ```
 - **Response:**
