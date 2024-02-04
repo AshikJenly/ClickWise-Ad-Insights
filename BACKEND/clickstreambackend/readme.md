@@ -33,7 +33,8 @@ This documentation provides details on the REST API endpoints and their usage fo
     "email": "user@example.com",
     "password": "password123",
   }
-  ```
+```
+
 - **Response:**
   - 200 OK: User registered successfully.
   - 409 Conflict: User already exists.
@@ -93,10 +94,8 @@ This documentation provides details on the REST API endpoints and their usage fo
   {
     "userId": "user123",
     "activityType": "click",
-    // Additional activity details
   }
   ```
 - **Response:** 200 OK
 
-```
 
