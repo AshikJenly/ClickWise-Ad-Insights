@@ -5,7 +5,7 @@ import play.api.libs.json._
 
 case class UserActivity(
     event_timestamp: Instant,
-    userId: String,
+   var userId: String,
     sessionId: String,
     pageUrl: String,
     deviceType: String,
