@@ -1,7 +1,5 @@
 
-```markdown
 # REST API Documentation
-
 This documentation provides details on the REST API endpoints and their usage for the Clickstream Application.
 
 ## Table of Contents
@@ -32,8 +30,7 @@ This documentation provides details on the REST API endpoints and their usage fo
   {
     "email": "user@example.com",
     "password": "password123",
-  }
-```
+  }```
 
 - **Response:**
   - 200 OK: User registered successfully.
