@@ -35,12 +35,11 @@ class MongoDBController @Inject()(cc: ControllerComponents)(implicit ec: Executi
   def aggGroupByWindow: Action[AnyContent] = Action.async { _ =>
     val aggregationPipeline = Seq(
        group("$window",
-        avg("totalUsersVisited", "$total_users_visited"),
-        sum("totalUniqueUsersVisited", "$total_unique_users_visited"),
+        max("totalUsersVisited", "$total_users_visited"),
+        max("totalUniqueUsersVisited", "$total_unique_users_visited"),
         avg("avgTimeSpendInWebsite", "$avg_time_spend_in_website"),
-        addToSet("addWatched", "$add_watched")
+        max("addWatched", "$add_watched")
       ),
-      sort(descending("_id")),
       limit(10)
     )
     collection.aggregate(aggregationPipeline).toFuture().map { result =>
