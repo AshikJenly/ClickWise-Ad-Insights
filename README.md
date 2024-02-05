@@ -5,4 +5,4 @@
 
 # ARCHITECTURE
 
-![alt text](.resources/architecture.odg)
+![alt text](.resources/image.png)
