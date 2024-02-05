@@ -3,7 +3,6 @@
 ## Tools and Environment Used in Development and Deployment
 ### Cloud Service Used
 ![alt text](.resources/azure.png)
-
 ### Operating System
 - Ubuntu 22.0 Azure Virtual Machine
 
