@@ -5,4 +5,4 @@
 
 # ARCHITECTURE
 
-[text](.resources/architecture.odg)
+![alt text](.resources/architecture.odg)
