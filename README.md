@@ -1,6 +1,63 @@
-# -ClickStream-Analysis-in-a-Web-Application
+# ClickStream Analysis in a Web Application
 
+## Tools and Environment Used in Development and Deployment
 
+### Operating System
+- Ubuntu 22.0 Azure Virtual Machine
+
+### Programming Languages
+- Scala
+- Python
+- JavaScript
+
+### Data Processing Tools
+- Azure DataBricks (Spark)
+
+### Data Storage Tools
+- Azure MySQL Flexible Server
+- Azure Data Lake
+- Azure CosmosDB (MongoDB)
+- Apache Hadoop (POC)
+- Apache Kafka (POC)
+
+### Data Streaming Tools
+- Azure EventHubs
+- Azure DataBricks (Spark)
+
+### Software Frameworks
+- Play Framework (Scala)
+
+### Visualization Tools
+- Chart.js
+
+## Spark Execution Mode : Cluster 
+### Cluster Details:
+```json
+{
+    "num_workers": 3,
+    "cluster_name": "Ashik's Cluster - MultiNode",
+    "spark_version": "14.2.x-scala2.12",
+    "spark_conf": {},
+    "azure_attributes": {
+        "first_on_demand": 1,
+        "availability": "ON_DEMAND_AZURE",
+        "spot_bid_max_price": -1
+    },
+    "node_type_id": "Standard_DS3_v2",
+    "driver_node_type_id": "Standard_DS3_v2",
+    "ssh_public_keys": [],
+    "custom_tags": {},
+    "spark_env_vars": {},
+    "autotermination_minutes": 120,
+    "enable_elastic_disk": true,
+    "init_scripts": [],
+    "single_user_name": "<username>.onmicrosoft.com",
+    "enable_local_disk_encryption": false,
+    "data_security_mode": "SINGLE_USER",
+    "runtime_engine": "PHOTON",
+    "cluster_id": "<cluster-id>"
+}
+```
 # Project Overview
 
 # ARCHITECTURE
