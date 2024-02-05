@@ -2,7 +2,8 @@
 
 ## Tools and Environment Used in Development and Deployment
 ### Cloud Service Used
-![alt text](.resources/azure.png)
+![image](https://github.com/AshikJenly/ClickStream-Analysis-in-a-Web-Application/assets/116492348/cd629f7b-37c9-4465-84af-d0d4e31f1e2a)
+
 ### Operating System
 - Ubuntu 22.0 Azure Virtual Machine
 
