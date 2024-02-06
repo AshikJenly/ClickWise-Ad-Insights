@@ -11,7 +11,7 @@ import java.util.concurrent.Executors
 class ProduceDataToHubs{
 
   // Replace these values with your actual Event Hubs namespace, name, and SAS key
-    val EVENT_HUB_CONNECTION_STR:String = "Endpoint=sb://forspark.servicebus.windows.net/;SharedAccessKeyName=produce;SharedAccessKey=7hiTBO6qCXCgXVDEmHr40y+RFUMHAJGoA+AEhKvCiII=;EntityPath=clickstream" 
+    val EVENT_HUB_CONNECTION_STR:String = sys.env.get("AZUREEVENTHUB")
     val EVENT_HUB_NAME :String= "clickstream" 
     implicit val user_activity: Format[UserActivity] = Json.format[UserActivity]
 

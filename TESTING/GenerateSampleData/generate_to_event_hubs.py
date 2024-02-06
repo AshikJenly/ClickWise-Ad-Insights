@@ -12,9 +12,7 @@ from datetime import datetime, timedelta
 
 
 fake = Faker()
-
-# EVENT_HUB_CONNECTION_STR = "Endpoint=sb://forspark.servicebus.windows.net/;SharedAccessKeyName=produce;SharedAccessKey=KwCKwHHdV2WVp1hJRxv+tTeFjqnmkKeG1+AEhGk+RMs=;EntityPath=clickstream"
-EVENT_HUB_CONNECTION_STR = "Endpoint=sb://forspark.servicebus.windows.net/;SharedAccessKeyName=produce;SharedAccessKey=7hiTBO6qCXCgXVDEmHr40y+RFUMHAJGoA+AEhKvCiII=;EntityPath=clickstream"  ##fill in with the connection string from EventHub
+EVENT_HUB_CONNECTION_STR = ""
 EVENT_HUB_NAME = "clickstream"  ##fill in with the EventHub instance name
 producer = EventHubProducerClient.from_connection_string(conn_str=EVENT_HUB_CONNECTION_STR, eventhub_name=EVENT_HUB_NAME)
 
