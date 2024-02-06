@@ -32,6 +32,9 @@
 
 ### Visualization Tools
 - Chart.js
+### Build Tools
+- amm
+- sbt
 
 ## Spark Execution Mode : Cluster 
 ### Cluster Details:
