@@ -22,8 +22,7 @@ case class EventHubToDataLake(private val spark:SparkSession)
             StructField("adId", StringType, nullable = false),
             StructField("durationSeconds", IntegerType, nullable = false)
 ))
-      
-      private val CONNECTION_STRING = "Endpoint=sb://forspark.servicebus.windows.net/;SharedAccessKeyName=produce;SharedAccessKey=7hiTBO6qCXCgXVDEmHr40y+RFUMHAJGoA+AEhKvCiII=;EntityPath=clickstream" 
+      private val CONNECTION_STRING = sys.env.get("AZUREEVENTHUB")
       
       private val connectionStringBuilder =  ConnectionStringBuilder(CONNECTION_STRING).setEventHubName("clickstream").build
       private val customEventhubParameters =  EventHubsConf(connectionStringBuilder).setMaxEventsPerTrigger(5)

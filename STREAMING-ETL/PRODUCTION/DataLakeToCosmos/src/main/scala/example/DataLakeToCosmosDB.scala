@@ -23,8 +23,7 @@ case class DataLakeToCosmosDB (private val spark:SparkSession) {
             StructField("durationSeconds", IntegerType, nullable = false)
 ))
       
-
-    private val CONNECTION_URI = "mongodb://forspark:J6cznn1Wd7ukY4lNNxqhhyJxVRm4aBIH8WrAqrHspTjbKTW5KvrIEqHdL9SvsyLmZziicHF4M3v8ACDbna0CdA==@forspark.mongo.cosmos.azure.com:10255/click.test?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@forspark@"
+    private val CONNECTION_URI =  sys.env.get("MONGOURLAZURE").get
     var data  = spark.readStream
                             .schema(schema)
                             .parquet("/mnt/streamingdatafinal/clickstream/warehouse/click")

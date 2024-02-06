@@ -1,8 +1,7 @@
 from azure.eventhub import EventHubConsumerClient
 
 # Event Hubs connection string
-CONNECTION_STRING = "Endpoint=sb://forspark.servicebus.windows.net/;SharedAccessKeyName=produce;SharedAccessKey=7hiTBO6qCXCgXVDEmHr40y+RFUMHAJGoA+AEhKvCiII=;EntityPath=clickstream"  ##fill in with the connection string from EventHub
-
+CONNECTION_STRING = ""
 # Event Hubs consumer group and partition
 CONSUMER_GROUP = "$Default"
 PARTITION_ID = "0"
